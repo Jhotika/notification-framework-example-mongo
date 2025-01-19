@@ -6,10 +6,18 @@ import useNotificationStore from './store/notificationStore';
 
 const FETCH_INTERVAL = 10000;
 
+const formatTimestamp = (timestamp: number) => {
+  const date = new Date(timestamp);
+  return new Intl.DateTimeFormat('en-US', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  }).format(date);
+};
+
 const OwnerOneComponent = () => {
-  const notifications = useNotificationStore((state:any) => state.notifications);
-  const isLoading = useNotificationStore((state:any) => state.isLoading);
-  const fetchNotificationsForOwner001 = useNotificationStore((state:any) => state.fetchNotificationsForOwner001);
+  const notifications = useNotificationStore((state: any) => state.notifications);
+  const isLoading = useNotificationStore((state: any) => state.isLoading);
+  const fetchNotificationsForOwner001 = useNotificationStore((state: any) => state.fetchNotificationsForOwner001);
   const [countdown, setCountdown] = useState(FETCH_INTERVAL / 1000);
 
   useEffect(() => {
@@ -43,14 +51,16 @@ const OwnerOneComponent = () => {
         </div>
 
         <div className="space-y-3">
-          {notifications.map((notification:any) => (
+          {notifications.map((notification: any) => (
             <div 
               key={notification.id}
               className="p-3 bg-white rounded-lg shadow hover:shadow-md transition-shadow"
             >
               <div className="flex justify-between items-start">
                 <p className="text-sm text-gray-700">{notification.message}</p>
-                <span className="text-xs text-gray-500">{notification.time}</span>
+                <span className="text-xs text-gray-500">
+                  {formatTimestamp(notification.notification.createdAt)}
+                </span>
               </div>
             </div>
           ))}

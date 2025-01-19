@@ -1,5 +1,4 @@
 import { ExampleNotificationFrameworkClient } from "@/clients/notificationClient";
-import MockIds from "@/mock/mockIds";
 import { NotificationService } from "@/notifications/lib";
 import { ReviewNotificationService } from "@/notifications/src/services/reviewNotification.service";
 import { ReviewStatus } from "@common/review/ContentReview";
