@@ -1,20 +1,9 @@
-const BASE_URL = 'http://localhost:8000';
+import { apiService } from "./apiService";
 
 export const notificationService = {
-  async fetchNotifications(
-    viewerUid: string,
-  ) {
+  async fetchNotifications(viewerUid: string) {
     try {
-      const response = await fetch(`${BASE_URL}/notifications/${viewerUid}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      if (!response.ok) {
-        throw new Error('Failed to fetch notifications');
-      }
-      const data = await response.json();
+      const data = await apiService.get(`/notifications/${viewerUid}`);
       return data.notifications || [];
     } catch (error) {
       console.error('Error fetching notifications:', error);
