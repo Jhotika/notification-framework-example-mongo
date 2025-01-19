@@ -1,6 +1,7 @@
-import { IReviewNotification, ReviewNotification } from "../models/reviewNotification";
+import { ReviewNotification } from "../models/reviewNotification";
 import { NotificationService } from "../../lib/services/notification.service";
 import { ReviewStatus } from "@common/review/ContentReview";
+import { INotification } from "../../lib/models/abstractNotification";
 
 export class ReviewNotificationService extends NotificationService {
     private constructor(parent: NotificationService) {
@@ -12,8 +13,10 @@ export class ReviewNotificationService extends NotificationService {
             parent.logger
         );
     }
-
-    static fromNotificationService = (notificationService: NotificationService): ReviewNotificationService => {
+    
+    static fromNotificationService = (
+        notificationService: NotificationService,
+    ): ReviewNotificationService => {
         return new ReviewNotificationService(notificationService);
     };
 
@@ -23,19 +26,18 @@ export class ReviewNotificationService extends NotificationService {
         contentName: string,
         status: ReviewStatus
     ): Promise<void> {
-        const notification: IReviewNotification = ReviewNotification.New(
+        const notification: INotification = ReviewNotification.New(
             ownerId,
             this.viewerId,
-            `Your content "${contentName}" has been ${status}ed`,
             {
                 reviewerUid: this.viewerId,
                 reviewerName: "John Doe",
                 contentUid,
                 contentName,
-                status
+                status,
+                message: `Your content "${contentName}" has been ${status}ed`
             }
         );
-        
         try {
             await this.genSave(notification);
         } catch (error) {

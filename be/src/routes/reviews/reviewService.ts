@@ -3,13 +3,7 @@ import { NotificationService } from "@/notifications/lib";
 import { ReviewNotificationService } from "@/notifications/src/services/reviewNotification.service";
 import { ReviewStatus } from "@common/review/ContentReview";
 
-export interface IWithMaybeNotificationService<T extends NotificationService> {
-  readonly notificationService: T | null;
-}
-
-export class ReviewService
-  implements IWithMaybeNotificationService<NotificationService>
-{
+export class ReviewService {
   constructor(
     public viewerUid: string,
     public notificationService: NotificationService | null
@@ -20,31 +14,30 @@ export class ReviewService
   ): Promise<ReviewService> => {
     const notif = await ExampleNotificationFrameworkClient.getInstanceX();
     const notifService = notif.getNotificationServiceX(viewerUid);
-    return new ReviewService(
-        viewerUid,
-        notifService,
-    );
+    return new ReviewService(viewerUid, notifService);
   };
 
   async genCreateReviewX(
     ownerUid: string,
-    reviewStatus: string,
+    reviewStatus: string
   ) {
     const review = reviewStatus as ReviewStatus;
     try {
       if (!this.notificationService) {
         return true;
       } else {
-        const notifService = ReviewNotificationService.fromNotificationService(
+        /**
+         * @todo: Implement review specific logic here
+         */
+
+        const reviewNotifService = ReviewNotificationService.fromNotificationService(
           this.notificationService
         );
 
-        // ownerUid - user that'll receive the notification,in this case the creator of the content
-        // contentName - name of the content that was reviewed
-        // both values should come from the relevant service class/method
+        // ownerUid - user who will receive the notification (creator of the content)
         const contentUid = "Awesome-content-uid";
         const contentName = "Awesome content";
-        await notifService.genCreateNotification(
+        await reviewNotifService.genCreateNotification(
           ownerUid,
           contentUid,
           contentName,
@@ -52,7 +45,9 @@ export class ReviewService
         );
       }
     } catch (e) {
-      console.error(`Failed to create notification for user ${this.viewerUid}`);
+      console.error(
+        `Failed to create notification for user ${this.viewerUid}`
+      );
     }
   }
 }
