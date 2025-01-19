@@ -1,0 +1,24 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": "src",
+        "paths": {
+            "@/*": [
+                "./*"
+            ],
+            "@routes/*": [
+                "./routes/*"
+            ],
+            "@common/*": [
+                "./common/*"
+            ]
+        }
+    },
+    "include": [
+        "./src/**/*.ts",
+        "./src/common/**/*.ts"
+    ],
+    "exclude": [
+        "./src/scripts/**/*.ts"
+    ]
+}
