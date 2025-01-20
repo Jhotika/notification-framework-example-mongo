@@ -1,7 +1,7 @@
 import { ReviewNotification } from "../models/reviewNotification";
 import { NotificationService } from "../../lib/services/notification.service";
 import { ReviewStatus } from "@common/review/ContentReview";
-import { InvitationNotification } from "models/invitationNotification";
+import { InvitationNotification } from "../models/invitationNotification";
 
 export class InvitationNotificationService extends NotificationService {
     private constructor(parent: NotificationService) {
