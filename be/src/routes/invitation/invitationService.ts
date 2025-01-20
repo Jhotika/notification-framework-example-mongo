@@ -1,6 +1,8 @@
 import { ExampleNotificationFrameworkClient } from "@/clients/notificationClient";
 import { NotificationService } from "@/notifications/lib";
-import { InvitationNotificationService } from "@/notifications/src/services/invitationNotification.service";
+import {
+    InvitationNotificationService
+} from "@/notifications/src/services/invitationNotification.service";
 
 export class InvitationService {
   constructor(

@@ -3,6 +3,7 @@ import { Logger } from "../notifications/lib/logger";
 import { NotificationFrameworkBuilder } from "../notifications/lib/notificationFramework.builder";
 import { NotificationMongoClient } from "../mongo/index";
 import { ReviewNotification } from "@/notifications/src/models/reviewNotification";
+import { InvitationNotification } from "@/notifications/src/models/invitationNotification";
 
 export class ExampleNotificationFrameworkClient{
     static instance: NotificationFramework;
@@ -16,6 +17,7 @@ export class ExampleNotificationFrameworkClient{
                 .withConcreteNotificationClasses(
                     [
                         ReviewNotification,
+                        InvitationNotification,
                     ]
                 );
             ExampleNotificationFrameworkClient.instance = framework.buildX();

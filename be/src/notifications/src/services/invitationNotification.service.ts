@@ -1,6 +1,5 @@
-import { ReviewNotification } from "../models/reviewNotification";
+import { IInivitationPayload } from "@common/invitation/InvitationPayload";
 import { NotificationService } from "../../lib/services/notification.service";
-import { ReviewStatus } from "@common/review/ContentReview";
 import { InvitationNotification } from "../models/invitationNotification";
 
 export class InvitationNotificationService extends NotificationService {
@@ -28,16 +27,17 @@ export class InvitationNotificationService extends NotificationService {
         businessName: string,
         message: string,
     ): Promise<void> {
+        const invitationPayload : IInivitationPayload = {
+            inviterUid,
+            inviterName,
+            businessUid,
+            businessName,
+            message,
+        };
         const notification = InvitationNotification.New(
             ownerUid,
             this.viewerId,
-            {
-                inviterUid,
-                inviterName,
-                businessUid,
-                businessName,
-                message,
-            }
+            invitationPayload,
         );
         try {
             await this.genSave(notification);

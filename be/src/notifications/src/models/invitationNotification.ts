@@ -19,7 +19,7 @@ export class InvitationNotification extends AbstractNotification {
   ): InvitationNotification {
     return new InvitationNotification({
       uid: uuidv4(),
-      type: NotificationType.InviteUserNotification,
+      type: NotificationType.InviteNotification,
       payload: invitationPayload,
       ownerUid,
       senderUid,

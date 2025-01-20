@@ -1,5 +1,5 @@
 export enum NotificationType {
     Yo = "Yo",
-    InviteUserNotification = "InviteUserNotification",
+    InviteNotification = "InvitationNotification",
     ReviewNotification = "ReviewNotification",
 }
