@@ -41,7 +41,9 @@ export class ReviewNotificationService extends NotificationService {
         try {
             await this.genSave(notification);
         } catch (error) {
-            console.log(error);
+            console.error(
+                "Failed to create review notification", error,
+            );
         }
     }
 }

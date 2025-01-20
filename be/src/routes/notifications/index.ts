@@ -25,7 +25,10 @@ notificationRouter.get("/:viewerUid", async (req, res) => {
 
 notificationRouter.post("/markAllAsRead", async (req, res) => {
   try {
-    const viewerUid = req.body; // ideally should come from the request like idToken
+    /**
+     * @viewerUid : should ideally come from the request object, something like idToken
+     */
+    const viewerUid = req.body;
     const notificationService = await new NotificationServiceFetcher(
       viewerUid,
     ).fetchNotificationService();
@@ -42,8 +45,11 @@ notificationRouter.post("/markAllAsRead", async (req, res) => {
 
 notificationRouter.post("/:uuid/markAsRead", async (req, res) => {
   try {
+    /**
+     * @viewerUid : should ideally come from the request object, something like idToken
+     */
+    const viewerUid = req.body;
     const { uuid } = req.params;
-    const viewerUid = req.body; // ideally should come from the request like idToken
     if (!uuid) {
       return res.status(400).json({
         error: "Notification ID is required",
