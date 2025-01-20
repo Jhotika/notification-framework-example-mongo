@@ -53,7 +53,7 @@ export class NotificationMongoClient extends MongoClient {
           });
           await NotificationMongoClient.instance.connect();
           NotificationMongoClient.connectionStatus = ConnectionStatus.CONNECTED;
-          console.log('Connected to MongoDB');
+          console.info('Connected to MongoDB');
           this.db = NotificationMongoClient.instance.db(prodDb);
         } catch (error) {
           NotificationMongoClient.connectionStatus = ConnectionStatus.DISCONNECTED;

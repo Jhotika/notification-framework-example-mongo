@@ -8,8 +8,6 @@ export const notificationFactoryX = <T extends AbstractNotification<string>>(
   classes: Readonly<Array<ConcreteClass<T>>>
 ): T => {
   const className = json.type;
-  console.log("classes", classes);
-  console.log("className", className);
   const matchingClass = classes.find((cls) => cls.name === className);
 
   if (!matchingClass) {
