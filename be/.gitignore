@@ -40,3 +40,4 @@ src/scripts
 # common TS code shared with frontend. Only copied for linking
 src/common
 .env
+yarn.lock
