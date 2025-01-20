@@ -15,8 +15,10 @@ const formatTimestamp = (timestamp: number) => {
 };
 
 const OwnerOneComponent = () => {
-  const notifications = useNotificationStore((state) => state.notifications);
-  const isLoading = useNotificationStore((state) => state.isLoading);
+  const notifications = useNotificationStore(
+    (state) => state.notificationsForOwnerOne
+  );
+  const isLoading = useNotificationStore((state) => state.isLoadingForOwnerOne);
   const fetchNotificationsForOwner001 = useNotificationStore(
     (state) => state.fetchNotificationsForOwner001
   );
