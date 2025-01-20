@@ -21,9 +21,6 @@ export class ReviewService {
     ownerUid: string,
     reviewStatus: string
   ) {
-    console.log('Gen Create Review X');
-    console.log(`Incoming status: ${reviewStatus}`);
-  
     try {
       // Convert reviewStatus to the enum value, ensuring case-insensitivity and validity
       const review = ReviewStatus[reviewStatus.toUpperCase() as keyof typeof ReviewStatus];
@@ -31,8 +28,6 @@ export class ReviewService {
         console.error(`Invalid review status: ${reviewStatus}`);
         return;
       }
-  
-      console.log(`Converted status: ${review}`);
   
       if (!this.notificationService) {
         console.warn('Notification service is not available');
@@ -53,9 +48,7 @@ export class ReviewService {
         review === ReviewStatus.APPROVED
           ? `Your content "${contentName}" has been approved`
           : `Your content "${contentName}" has been rejected`;
-  
-      console.log(`Message: ${message}`);
-  
+          
       // Create the notification
       await reviewNotifService.genCreateNotification(
         ownerUid,
