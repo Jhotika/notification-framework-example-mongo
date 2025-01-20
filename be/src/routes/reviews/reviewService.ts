@@ -21,33 +21,51 @@ export class ReviewService {
     ownerUid: string,
     reviewStatus: string
   ) {
-    const review = reviewStatus as ReviewStatus;
+    console.log('Gen Create Review X');
+    console.log(`Incoming status: ${reviewStatus}`);
+  
     try {
-      if (!this.notificationService) {
-        return true;
-      } else {
-        /**
-         * @todo: Implement review specific logic here
-         */
-
-        const reviewNotifService = ReviewNotificationService.fromNotificationService(
-          this.notificationService
-        );
-
-        // ownerUid - user who will receive the notification (creator of the content)
-        const contentUid = "Awesome-content-uid";
-        const contentName = "Awesome content";
-        await reviewNotifService.genCreateNotification(
-          ownerUid,
-          contentUid,
-          contentName,
-          review
-        );
+      // Convert reviewStatus to the enum value, ensuring case-insensitivity and validity
+      const review = ReviewStatus[reviewStatus.toUpperCase() as keyof typeof ReviewStatus];
+      if (!review) {
+        console.error(`Invalid review status: ${reviewStatus}`);
+        return;
       }
-    } catch (e) {
-      console.error(
-        `Failed to create notification for user ${this.viewerUid}`
+  
+      console.log(`Converted status: ${review}`);
+  
+      if (!this.notificationService) {
+        console.warn('Notification service is not available');
+        return true;
+      }
+  
+      // Initialize the review notification service
+      const reviewNotifService = ReviewNotificationService.fromNotificationService(
+        this.notificationService
       );
+  
+      // Mocked content identifiers and name
+      const contentUid = "Awesome-content-uid";
+      const contentName = "Awesome content";
+  
+      // Determine the message based on the review status
+      const message =
+        review === ReviewStatus.APPROVED
+          ? `Your content "${contentName}" has been approved`
+          : `Your content "${contentName}" has been rejected`;
+  
+      console.log(`Message: ${message}`);
+  
+      // Create the notification
+      await reviewNotifService.genCreateNotification(
+        ownerUid,
+        contentUid,
+        contentName,
+        review,
+        message,
+      );
+    } catch (e) {
+      console.error(`Failed to create notification for user ${this.viewerUid}:`, e);
     }
-  }
+  }  
 }

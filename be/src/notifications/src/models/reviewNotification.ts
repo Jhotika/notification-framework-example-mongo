@@ -28,11 +28,21 @@ export class ReviewNotification extends AbstractNotification {
     });
   }
 
-  public genResponse(): Promise<INotificationResponse | null> {
-    throw new Error("Method not implemented.");
+  genResponse = async (): Promise<INotificationResponse | null> => {
+    return {
+      notification: this,
+    }
   }
 
   public toINotification(): INotification<string> {
-    throw new Error("Method not implemented.");
+    return {
+      uid: this.uid,
+      type: this.type,
+      ownerUid: this.ownerUid,
+      senderUid: this.senderUid,
+      isRead: this.isRead,
+      createdAt: this.createdAt,
+      payload: this.payload,
+    }
   }
 }

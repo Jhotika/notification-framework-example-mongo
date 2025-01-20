@@ -1,7 +1,6 @@
 import { ReviewNotification } from "../models/reviewNotification";
 import { NotificationService } from "../../lib/services/notification.service";
 import { ReviewStatus } from "@common/review/ContentReview";
-import { INotification } from "../../lib/models/abstractNotification";
 
 export class ReviewNotificationService extends NotificationService {
     private constructor(parent: NotificationService) {
@@ -24,9 +23,10 @@ export class ReviewNotificationService extends NotificationService {
         ownerId: string,
         contentUid: string,
         contentName: string,
-        status: ReviewStatus
+        status: ReviewStatus,
+        message: string,
     ): Promise<void> {
-        const notification: INotification = ReviewNotification.New(
+        const notification = ReviewNotification.New(
             ownerId,
             this.viewerId,
             {
@@ -35,7 +35,7 @@ export class ReviewNotificationService extends NotificationService {
                 contentUid,
                 contentName,
                 status,
-                message: `Your content "${contentName}" has been ${status}ed`
+                message,
             }
         );
         try {

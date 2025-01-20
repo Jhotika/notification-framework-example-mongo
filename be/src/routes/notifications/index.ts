@@ -7,7 +7,6 @@ const notificationRouter = express.Router();
 
 notificationRouter.get("/:viewerUid", async (req, res) => {
   try {
-    console.log("Fetching notifications for user", req.params.viewerUid);
     const { viewerUid } = req.params; // ideally should come from the request like idToken
     const notificationService = await new NotificationServiceFetcher(
       viewerUid,
@@ -17,6 +16,7 @@ notificationRouter.get("/:viewerUid", async (req, res) => {
       notifications: notificationResponses
     });
   } catch (error) {
+    console.error("Failed to fetch notifications", error);
     return res.status(500).json({
       error: "Failed to fetch notifications",
     });
