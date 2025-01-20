@@ -31,7 +31,7 @@ export class ReviewService {
   
       if (!this.notificationService) {
         console.warn('Notification service is not available');
-        return true;
+        return;
       }
   
       // Initialize the review notification service
