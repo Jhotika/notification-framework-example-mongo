@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState, useEffect } from "react";
 import useNotificationStore from "./store/notificationStore";
+import { NotificationResponse } from "../../../commonTs/notification/NotificationResponse";
 
 const FETCH_INTERVAL = 10000;
 
@@ -15,14 +15,13 @@ const formatTimestamp = (timestamp: number) => {
 };
 
 const OwnerOneComponent = () => {
-  const notifications = useNotificationStore(
-    (state: any) => state.notifications
-  );
-  const isLoading = useNotificationStore((state: any) => state.isLoading);
+  const notifications = useNotificationStore((state) => state.notifications);
+  const isLoading = useNotificationStore((state) => state.isLoading);
   const fetchNotificationsForOwner001 = useNotificationStore(
-    (state: any) => state.fetchNotificationsForOwner001
+    (state) => state.fetchNotificationsForOwner001
   );
-  const [countdown, setCountdown] = useState(FETCH_INTERVAL / 1000);
+
+  let [countdown, setCountdown] = useState(FETCH_INTERVAL / 1000);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -35,6 +34,7 @@ const OwnerOneComponent = () => {
     }, 1000);
 
     fetchNotificationsForOwner001();
+
     return () => {
       clearInterval(intervalId);
       clearInterval(countdownId);
@@ -57,7 +57,7 @@ const OwnerOneComponent = () => {
         </div>
 
         <div className="space-y-3">
-          {notifications.map((item: any) => {
+          {notifications.map((item: NotificationResponse) => {
             const notification = item.notification;
             return (
               <div
