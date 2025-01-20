@@ -8,22 +8,16 @@ interface ViewerState {
   updateReviewOwner2Status: (status: string) => Promise<void>;
 }
 
-const useViewerStore = create<ViewerState>((set) => ({
+const useViewerStore = create<ViewerState>(() => ({
   reviewOwner1Status: null,
   reviewOwner2Status: null,
 
   updateReviewOwner1Status: async (status) => {
-    const success = await reviewService.postReviewStatus('owner__001', status);
-    if (success) {
-      set({ reviewOwner1Status: status });
-    }
+    await reviewService.postReviewStatus('owner__001', status);
   },
 
   updateReviewOwner2Status: async (status) => {
-    const success = await reviewService.postReviewStatus('owner__002', status);
-    if (success) {
-      set({ reviewOwner2Status: status });
-    }
+    await reviewService.postReviewStatus('owner__002', status);
   },
 }));
 

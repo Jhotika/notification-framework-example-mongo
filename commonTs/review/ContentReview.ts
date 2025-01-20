@@ -9,4 +9,5 @@ export interface IReviewPayload {
     contentUid: string;
     contentName: string;
     status: ReviewStatus;
+    message: string;
 }

@@ -10,9 +10,9 @@ reviewRouter.post("/", async (req, res) => {
         ownerId,
     } = req.body;
     try {
-        console.log("Creating review");
         const mockIds = MockIds.getInstance();
-        const viewerUid = mockIds.viewerUid1; // Viewer Uid(sender of the notif) should come from the request
+        // Viewer Uid(sender of the notif) would ideally come from the request
+        const viewerUid = mockIds.viewerUid1;
         const reviewService = await ReviewService.withNotificationService(
             viewerUid,
         );

@@ -15,7 +15,6 @@ const useNotificationStore = create((set) => ({
       const notifications = await notificationService.fetchNotifications(
         "owner__001",
       );
-      console.log('Fetched notifications:', notifications);
       set({ notifications });
     } catch (error) {
       console.error('Failed to fetch notifications:', error);

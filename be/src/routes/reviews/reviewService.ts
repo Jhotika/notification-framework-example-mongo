@@ -3,13 +3,7 @@ import { NotificationService } from "@/notifications/lib";
 import { ReviewNotificationService } from "@/notifications/src/services/reviewNotification.service";
 import { ReviewStatus } from "@common/review/ContentReview";
 
-export interface IWithMaybeNotificationService<T extends NotificationService> {
-  readonly notificationService: T | null;
-}
-
-export class ReviewService
-  implements IWithMaybeNotificationService<NotificationService>
-{
+export class ReviewService {
   constructor(
     public viewerUid: string,
     public notificationService: NotificationService | null
@@ -20,39 +14,58 @@ export class ReviewService
   ): Promise<ReviewService> => {
     const notif = await ExampleNotificationFrameworkClient.getInstanceX();
     const notifService = notif.getNotificationServiceX(viewerUid);
-    return new ReviewService(
-        viewerUid,
-        notifService,
-    );
+    return new ReviewService(viewerUid, notifService);
   };
 
   async genCreateReviewX(
     ownerUid: string,
-    reviewStatus: string,
+    reviewStatus: string
   ) {
-    const review = reviewStatus as ReviewStatus;
+    console.log('Gen Create Review X');
+    console.log(`Incoming status: ${reviewStatus}`);
+  
     try {
-      if (!this.notificationService) {
-        return true;
-      } else {
-        const notifService = ReviewNotificationService.fromNotificationService(
-          this.notificationService
-        );
-
-        // ownerUid - user that'll receive the notification,in this case the creator of the content
-        // contentName - name of the content that was reviewed
-        // both values should come from the relevant service class/method
-        const contentUid = "Awesome-content-uid";
-        const contentName = "Awesome content";
-        await notifService.genCreateNotification(
-          ownerUid,
-          contentUid,
-          contentName,
-          review
-        );
+      // Convert reviewStatus to the enum value, ensuring case-insensitivity and validity
+      const review = ReviewStatus[reviewStatus.toUpperCase() as keyof typeof ReviewStatus];
+      if (!review) {
+        console.error(`Invalid review status: ${reviewStatus}`);
+        return;
       }
+  
+      console.log(`Converted status: ${review}`);
+  
+      if (!this.notificationService) {
+        console.warn('Notification service is not available');
+        return true;
+      }
+  
+      // Initialize the review notification service
+      const reviewNotifService = ReviewNotificationService.fromNotificationService(
+        this.notificationService
+      );
+  
+      // Mocked content identifiers and name
+      const contentUid = "Awesome-content-uid";
+      const contentName = "Awesome content";
+  
+      // Determine the message based on the review status
+      const message =
+        review === ReviewStatus.APPROVED
+          ? `Your content "${contentName}" has been approved`
+          : `Your content "${contentName}" has been rejected`;
+  
+      console.log(`Message: ${message}`);
+  
+      // Create the notification
+      await reviewNotifService.genCreateNotification(
+        ownerUid,
+        contentUid,
+        contentName,
+        review,
+        message,
+      );
     } catch (e) {
-      console.error(`Failed to create notification for user ${this.viewerUid}`);
+      console.error(`Failed to create notification for user ${this.viewerUid}:`, e);
     }
-  }
+  }  
 }
